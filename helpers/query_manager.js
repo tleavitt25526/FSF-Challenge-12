@@ -10,22 +10,38 @@ const choices_list = [
   "Add Department",
 ];
 
-const viewTable = function (table) {
-  console.log(table);
-  return table;
+const viewTable = function (table, pool) {
+  pool.query(`SELECT * FROM ${table}`, function (err, { rows }) {
+    if (err) {
+      console.log(err);
+    }
+    console.log(rows);
+  });
 };
 
-const addTable = function (table) {
-  console.log(table);
-  return table;
+const addDepartment = function (pool) {
+  const getData = inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "Department Name"
+    },
+  ])
+  .then((answers) => {
+    pool.query(`INSERT INTO department (name) VALUES (${answers.choice}) RETURNING *`, function (err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+  });
 };
 
-const updateRole = function (role) {
+const updateRole = function (role, pool) {
   console.log(role);
   return role;
 };
 
-async function main() {
+async function main(pool) {
   console.log("Application Running.");
 
   const getChoice = await inquirer
@@ -40,9 +56,9 @@ async function main() {
     .then((answers) => {
       console.log(`Choice: ${answers.choice}`);
       if (answers.choice == choices_list[0]) {
-        return viewTable("employee");
+        return viewTable("employee", pool);
       } else if (answers.choice == choices_list[1]) {
-        return addTable("employee");
+        return addDepartment(pool);
       } else if (answers.choice == choices_list[2]) {
         return updateRole("role");
       } else if (answers.choice == choices_list[3]) {
@@ -55,8 +71,6 @@ async function main() {
         return addTable("department");
       }
     });
-
-  main();
 }
 
 module.exports = { main };
