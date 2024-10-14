@@ -19,7 +19,7 @@
   "homepage": "https://github.com/tleavitt25526/FSF-Challenge-12#readme",
   "dependencies": {
     "express": "^4.21.1",
-    "inquirer": "^8.2.4",
+    "inquirer": "^8.2.6",
     "pg": "^8.13.0"
   }
 }

@@ -24,7 +24,7 @@ pool.connect();
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  query.run();
+  query.main();
 });
 
 /*
